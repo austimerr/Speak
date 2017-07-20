@@ -165,12 +165,16 @@ io.on('connection', function (socket) {
 
         });
 
+        socket.on('othercheckbox', function (data) {
+            console.log("server receives for othercheckbox");
+            socket.broadcast.emit('othercheckbox', data);
+        });
+
         socket.on('dictionaryopen', function () {
             io.emit('dictionaryopen', socket.player.id);
         });
 
         socket.on('dictionaryclose', function () {
-            console.log("server receives request to close dictionary");
             io.emit('dictionaryclose', socket.player.id);
         });
 
@@ -238,12 +242,14 @@ function isEmpty(obj) {
 
 function getAllPlayers() {
     var collectedPlayers = [];
+    console.log(Object.keys(io.sockets.connected));
     Object.keys(io.sockets.connected).forEach(function (socketID) {
         var currentPlayer = io.sockets.connected[socketID].player;
         if (currentPlayer != null) {
             collectedPlayers.push(currentPlayer);
         }
     });
+    console.log(collectedPlayers);
     return collectedPlayers;
 }
 

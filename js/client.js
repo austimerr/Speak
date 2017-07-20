@@ -36,6 +36,11 @@ Client.sendForCompare = function (data) {
     }
 };
 
+Client.otherCheckBox = function (data) {
+    console.log("client receives request for other checkbox");
+    Client.socket.emit('othercheckbox', data);
+}
+
 Client.dictionaryInUse = function () {
     Client.socket.emit('dictionaryopen');
 };
@@ -88,6 +93,10 @@ Client.socket.on('phrase', function (data) {
 
 Client.socket.on('match', function (data) {
     mainGameState.match(data.word, data.phrase, data.page);
+});
+
+Client.socket.on('othercheckbox', function (data) {
+    mainGameState.otherCheck(data.page, data.word, data.active);
 });
 
 Client.socket.on('dictionaryopen', function (data) {
